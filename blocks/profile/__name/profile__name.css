@@ -6,7 +6,7 @@
   color: #FFFFFF;
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (max-width: 550px) {
   .profile__name {
     margin: 0 10px 14px 0;
     font-size: 27px;
