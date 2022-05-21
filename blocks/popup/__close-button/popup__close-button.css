@@ -4,7 +4,7 @@
   background-image: url(../../../images/Close_Button.svg);
   background-size: cover;
   border: none;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0);
   position: absolute;
   top: calc(-1*(8px + 32px));
   right: calc(-1*(8px + 32px));
