@@ -15,14 +15,20 @@ editButton.addEventListener('click', function() {
   jobInput.value = profileJob.textContent;
 })
 
-closeButton.addEventListener('click', function() {
+const closePopup = function() {
   popup.classList.remove('popup__opened');
+}
+
+closeButton.addEventListener('click', function() {
+  closePopup();
 })
 
 function formSubmitHandler (evt) {
+    console.log('Handler Run');
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
+    closePopup();
 }
 
 formElement.addEventListener('submit', formSubmitHandler);
