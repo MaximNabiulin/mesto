@@ -10,6 +10,12 @@
   overflow: hidden;
 }
 
+@media screen and (min-width: 551px) and (max-width: 768px) {
+  .profile__about-self {
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: 550px) {
   .profile__about-self {
     font-size: 14px;
