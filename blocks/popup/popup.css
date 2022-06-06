@@ -1,5 +1,5 @@
 .popup {
-  display: none; /* флекс и центрирование отвечают за выравнивание контента (непосредственно попапа) внутри блока */
+  display: flex; /* флекс и центрирование отвечают за выравнивание контента (непосредственно попапа) внутри блока */
   align-items: center;
   justify-content: center;
   position: fixed; /* свойство использовано согласно заданию и вместе с кординатами отвечают за наложение полупрозрачного фона поверх остальной страницы */
@@ -7,6 +7,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   font-family: 'Inter', 'Arial', sans-serif;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s linear;
 }

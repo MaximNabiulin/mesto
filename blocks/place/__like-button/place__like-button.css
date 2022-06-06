@@ -9,6 +9,8 @@
   box-sizing: border-box;
   background-color: #ffffff;
   transition: opacity 0.1s;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .place__like-button:hover {
