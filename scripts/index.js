@@ -1,11 +1,11 @@
 const editButton = document.querySelector('#edit-button');
 const addButton = document.querySelector('#add-button');
 
-const popupEditProfile = document.querySelector('.popup__profile');
+const popupEditProfile = document.querySelector('.popup_type_profile-editor');
 const closeEditProfile = document.querySelector('#profile-close');
-const popupAddPlace = document.querySelector('.popup__new-place');
+const popupAddPlace = document.querySelector('.popup_type_new-place');
 const closeAddPlace = document.querySelector('#place-close');
-const popupViewImage = document.querySelector('.popup__image-view');
+const popupViewImage = document.querySelector('.popup_type_image-view');
 const closeViewImage = document.querySelector('#view-close');
 
 const popupImageLink = document.querySelector('.popup__image');

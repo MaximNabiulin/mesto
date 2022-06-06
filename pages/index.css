@@ -31,9 +31,9 @@
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 
 @import url(../blocks/popup/popup.css);
-@import url(../blocks/popup/__profile/popup__profile.css);
-@import url(../blocks/popup/__new-place/popup__new-place.css);
-@import url(../blocks/popup/__image-view/popup__image-view.css);
+@import url(../blocks/popup/_type/popup_type_profile-editor.css);
+@import url(../blocks/popup/_type/popup_type_new-place.css);
+@import url(../blocks/popup/_type/popup_type_image-view.css);
 @import url(../blocks/popup/__content/popup__content.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/popup/__title/popup__title.css);
