@@ -61,6 +61,7 @@ const createCard = function (name, link) {
   return element;
 };
 
+// Решил поменять немного логику добавления карточек из массива, на более гибкий
 const addCards = (data, direction = true) => {
   const fragment = document.createDocumentFragment();
   data.forEach (({name, link}) => {
@@ -85,6 +86,7 @@ function handleProfileFormSubmit (evt) {
   closePopup(popupEditProfile);
 };
 
+// Также решил объединить обработчики и начальное добавление карточек на страницу в одну функцию: init
 const init = () => {
   const editButton = document.querySelector('#edit-button');
   const addButton = document.querySelector('#add-button');
@@ -92,7 +94,6 @@ const init = () => {
     openPopup(popupEditProfile);
     fillProfileInputs();
   });
-
 
   addButton.addEventListener('click', function() {
     openPopup(popupAddPlace);
