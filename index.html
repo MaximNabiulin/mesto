@@ -36,24 +36,30 @@
       <p class="footer__copyright">© 2022 Mesto Russia</p>
     </footer>
   </div>
+
   <div class="popup popup_type_profile-editor">
     <div class="popup__content">
       <button id = "profile-close" type="button" class="popup__close-button"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
-      <form id="profile-edit-form" name="profile-edit-form" action="#" method="get" class="popup__form">
-        <input type="text" id="name-edit" name="name-edit" placeholder="" class="popup__input popup__profile-name">
-        <input type="text" id="aboutself-edit" name="aboutself-edit" placeholder="" class="popup__input popup__profile-aboutself">
+      <form id="profile-edit-form" name="profile-edit-form" action="#" method="get" novalidate class="popup__form">
+        <input type="text" id="name-edit" name="name-edit" placeholder="" minlength="2" maxlength="40" required class="popup__input popup__profile-name">
+        <span class="name-edit-error popup__error-span"></span>
+        <input type="text" id="aboutself-edit" name="aboutself-edit" placeholder="" minlength="2" maxlength="200" required class="popup__input popup__profile-aboutself">
+        <span class="aboutself-edit-error popup__error-span"></span>
         <button id = "profile-submit" type="submit" class="popup__submit-button">Сохранить</button>
       </form>
     </div>
   </div>
+
   <div class="popup popup_type_new-place">
     <div class="popup__content">
       <button id = "place-close" type="button" class="popup__close-button"></button>
       <h3 class="popup__title">Новое Место</h3>
-      <form id="new-place-form" name="new-place-form" action="#" method="get" class="popup__form">
-        <input type="text" id="place-name" name="place-name" placeholder="Название" class="popup__input popup__place-name">
-        <input type="text" id="place-image-link" name="place-image-link" placeholder="Ссылка на картинку" class="popup__input popup__place-image">
+      <form id="new-place-form" name="new-place-form" action="#" method="get" novalidate class="popup__form">
+        <input type="text" id="place-name" name="place-name" placeholder="Название" minlength="2" maxlength="30" required class="popup__input popup__place-name">
+        <span class="place-name-error popup__error-span"></span>
+        <input type="url" id="place-image-link" name="place-image-link" placeholder="Ссылка на картинку" required class="popup__input popup__place-image">
+        <span class="place-image-link-error popup__error-span"></span>
         <button id = "new-place-submit" type="submit" class="popup__submit-button">Создать</button>
       </form>
     </div>
@@ -81,5 +87,6 @@
   </template>
   <script src="./scripts/cards.js"></script>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validation.js"></script>
 </body>
 </html>
