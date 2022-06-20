@@ -97,11 +97,21 @@ const addCards = (data, direction = true) => {
   }
 };
 
-function handleProfileFormSubmit (evt) {
-  evt.preventDefault();
+function handleProfileFormSubmit () {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(popupEditProfile);
+};
+
+const handlePlaceFormSubmit = (evt) => {
+  addCards([{
+    name: placeInputName.value,
+    link: placeInputLink.value,
+  }], false);
+
+  evt.target.reset();
+  disableButton(placeSubmit, validationSettings);
+  closePopup(popupAddPlace);
 };
 
 const init = () => {
@@ -133,20 +143,7 @@ const init = () => {
   });
 
   formProfileElement.addEventListener('submit', handleProfileFormSubmit);
-
-  formPlaceElement.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-
-    addCards([{
-      name: placeInputName.value,
-      link: placeInputLink.value,
-    }], false);
-
-    evt.target.reset();
-    disableButton(placeSubmit, validationSettings);
-    closePopup(popupAddPlace);
-  });
-
+  formPlaceElement.addEventListener('submit', handlePlaceFormSubmit);
   addCards(cards);
 };
 
