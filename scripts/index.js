@@ -1,12 +1,11 @@
+import { Card } from './cards.js';
+import { FormValidator } from './FormValidator.js';
+
 const popupEditProfile = document.querySelector('.popup_type_profile-editor');
 const popupAddPlace = document.querySelector('.popup_type_new-place');
-const popupViewImage = document.querySelector('.popup_type_image-view');
 
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const overlays = document.querySelectorAll('.popup');
-
-const popupImageLink = document.querySelector('.popup__image');
-const popupImageCaption = document.querySelector('.popup__image-caption');
 
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__about-self');
@@ -15,11 +14,9 @@ const nameInput = document.querySelector('.popup__profile-name');
 const jobInput = document.querySelector('.popup__profile-aboutself');
 
 const placesContainer = document.querySelector ('.places');
-const placeTemplate = document.querySelector('#place-template').content;
 const formPlaceElement = document.querySelector('#new-place-form');
 const placeInputName = document.querySelector('#place-name');
 const placeInputLink = document.querySelector('#place-image-link');
-const placeSubmit = document.querySelector('#new-place-submit');
 
 const cards = [...initialCards];
 
@@ -51,39 +48,12 @@ const fillProfileInputs = () => {
   jobInput.value = profileJob.textContent;
 };
 
-const createCard = function (name, link) {
-  const element = placeTemplate.querySelector('.place').cloneNode(true);
-  const titleElement = element.querySelector('.place__title');
-  const imageElement = element.querySelector('.place__image');
-  const likeButton = element.querySelector('.place__like-button');
-  const deleteButton = element.querySelector('.place__delete-button');
-
-  titleElement.textContent = name;
-  imageElement.src = link;
-  imageElement.alt = name;
-
-  likeButton.addEventListener('click', evt => {
-    evt.target.classList.toggle('place__like-button_active');
-  });
-
-  deleteButton.addEventListener('click', () => {
-    element.remove();
-  });
-
-  imageElement.addEventListener('click', () => {
-    openPopup(popupViewImage);
-    popupImageLink.src = link;
-    popupImageLink.alt = name;
-    popupImageCaption.textContent = name;
-  });
-
-  return element;
-};
-
 const addCards = (data, direction = true) => {
   const fragment = document.createDocumentFragment();
   data.forEach (({name, link}) => {
-    const element = createCard(name, link);
+    const card = new Card ({name, link}, '#place-template');
+    const element = card.getElement();
+
     if (direction) {
       fragment.append(element)
     } else {
@@ -97,37 +67,54 @@ const addCards = (data, direction = true) => {
   }
 };
 
-function handleProfileFormSubmit () {
+function handleProfileFormSubmit (evt) {
+  evt.preventDefault();
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
+
   closePopup(popupEditProfile);
 };
 
 const handlePlaceFormSubmit = (evt) => {
+  evt.preventDefault();
+
   addCards([{
     name: placeInputName.value,
     link: placeInputLink.value,
   }], false);
 
   evt.target.reset();
-  disableButton(placeSubmit, validationSettings);
   closePopup(popupAddPlace);
 };
 
 const init = () => {
   const editButton = document.querySelector('#edit-button');
   const addButton = document.querySelector('#add-button');
-  editButton.addEventListener('click', function() {
-    openPopup(popupEditProfile);
-    resetInputErrors(formProfileElement, validationSettings);
-    fillProfileInputs();
-  });
 
-  addButton.addEventListener('click', function() {
-    openPopup(popupAddPlace);
-    // formPlaceElement.reset();
-    resetInputErrors(formPlaceElement, validationSettings);
-  });
+  // ФОРМА ПРОФИЛЯ
+  {
+    const formValidator = new FormValidator(validationSettings, popupEditProfile);
+
+    editButton.addEventListener('click', function() {
+      fillProfileInputs();
+      formValidator.enableValidation();
+      openPopup(popupEditProfile);
+    });
+
+    formProfileElement.addEventListener('submit', handleProfileFormSubmit);
+  }
+
+  // ФОРМА СОЗДАНИЯ КАРТОЧКИ
+  {
+    const formValidator = new FormValidator(validationSettings, formPlaceElement);
+
+    addButton.addEventListener('click', function() {
+      formValidator.enableValidation();
+      openPopup(popupAddPlace);
+    });
+
+    formPlaceElement.addEventListener('submit', handlePlaceFormSubmit);
+  }
 
   closeButtons.forEach((button) => {
     const popup = button.closest('.popup');
@@ -142,8 +129,6 @@ const init = () => {
     });
   });
 
-  formProfileElement.addEventListener('submit', handleProfileFormSubmit);
-  formPlaceElement.addEventListener('submit', handlePlaceFormSubmit);
   addCards(cards);
 };
 
