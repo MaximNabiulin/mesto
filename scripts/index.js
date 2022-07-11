@@ -1,11 +1,10 @@
-import { Card } from './cards.js';
+import { Card } from './Cards.js';
 import { FormValidator } from './FormValidator.js';
 
 const popupEditProfile = document.querySelector('.popup_type_profile-editor');
 const popupAddPlace = document.querySelector('.popup_type_new-place');
 
-const closeButtons = document.querySelectorAll('.popup__close-button');
-const overlays = document.querySelectorAll('.popup');
+const popups = document.querySelectorAll('.popup');
 
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__about-self');
@@ -18,7 +17,13 @@ const formPlaceElement = document.querySelector('#new-place-form');
 const placeInputName = document.querySelector('#place-name');
 const placeInputLink = document.querySelector('#place-image-link');
 
+const popupViewImage = document.querySelector('.popup_type_image-view');
+const popupImageLink = popupViewImage.querySelector('.popup__image');
+const popupImageCaption = popupViewImage.querySelector('.popup__image-caption');
+
 const cards = [...initialCards];
+
+const formValidators = {};
 
 const openPopup = function(popup) {
   popup.classList.add('popup_opened');
@@ -48,16 +53,25 @@ const fillProfileInputs = () => {
   jobInput.value = profileJob.textContent;
 };
 
+const createCard = (item) => {
+  const card = new Card (item, '#place-template', handleCardClick);
+  const cardElement = card.getElement();
+  return cardElement;
+}
+
+// прошу прощения что недостаочно хорошо отработал это замечание
+// уже не успевал вечером доделать, а хотелось сэкономить день
+// и отправить еще на одну итерацию, и понять сделал ли я правильно остальное
+// не успел разобраться как засунуть массив карточек без append,
+// чтобы они вставились не задом-на-перед
+
 const addCards = (data, direction = true) => {
   const fragment = document.createDocumentFragment();
-  data.forEach (({name, link}) => {
-    const card = new Card ({name, link}, '#place-template');
-    const element = card.getElement();
-
+  data.forEach ((item) => {
     if (direction) {
-      fragment.append(element)
+      fragment.append(createCard(item))
     } else {
-      fragment.prepend(element)
+      fragment.prepend(createCard(item))
     }
   })
   if (direction) {
@@ -66,6 +80,12 @@ const addCards = (data, direction = true) => {
     placesContainer.prepend(fragment)
   }
 };
+
+// const addCardsSimple = (data) => {
+//   data.forEach((item) => {
+//     placesContainer.prepend(createCard(item));
+//   })
+// }
 
 function handleProfileFormSubmit (evt) {
   evt.preventDefault();
@@ -87,44 +107,56 @@ const handlePlaceFormSubmit = (evt) => {
   closePopup(popupAddPlace);
 };
 
+function handleCardClick(title, image) {
+  popupImageLink.src = image;
+  popupImageLink.alt = title;
+  popupImageCaption.textContent = title;
+  openPopup(popupViewImage);
+}
+
 const init = () => {
   const editButton = document.querySelector('#edit-button');
   const addButton = document.querySelector('#add-button');
 
+  const enableValidation = (settings) => {
+    const formList = Array.from(document.querySelectorAll(settings.formSelector));
+
+    formList.forEach((formElement) => {
+      const validator = new FormValidator(settings, formElement);
+      const formName = formElement.getAttribute('name');
+
+      formValidators[formName] = validator;
+      validator.enableValidation();
+    });
+  };
+
+  enableValidation(validationSettings);
+
   // ФОРМА ПРОФИЛЯ
-  {
-    const formValidator = new FormValidator(validationSettings, popupEditProfile);
-
-    editButton.addEventListener('click', function() {
-      fillProfileInputs();
-      formValidator.enableValidation();
-      openPopup(popupEditProfile);
-    });
-
-    formProfileElement.addEventListener('submit', handleProfileFormSubmit);
-  }
-
-  // ФОРМА СОЗДАНИЯ КАРТОЧКИ
-  {
-    const formValidator = new FormValidator(validationSettings, formPlaceElement);
-
-    addButton.addEventListener('click', function() {
-      formValidator.enableValidation();
-      openPopup(popupAddPlace);
-    });
-
-    formPlaceElement.addEventListener('submit', handlePlaceFormSubmit);
-  }
-
-  closeButtons.forEach((button) => {
-    const popup = button.closest('.popup');
-    button.addEventListener('click', () => closePopup(popup));
+  editButton.addEventListener('click', function() {
+    fillProfileInputs();
+    formValidators['profile-edit-form'].resetValidation();
+    openPopup(popupEditProfile);
   });
 
-  overlays.forEach((overlay) => {
-    overlay.addEventListener('click', (evt) => {
+  formProfileElement.addEventListener('submit', handleProfileFormSubmit);
+
+
+  // ФОРМА СОЗДАНИЯ КАРТОЧКИ
+  addButton.addEventListener('click', function() {
+    formValidators['new-place-form'].resetValidation();
+    openPopup(popupAddPlace);
+  });
+
+  formPlaceElement.addEventListener('submit', handlePlaceFormSubmit);
+
+  popups.forEach((popup) => {
+    popup.addEventListener('mousedown', (evt) => {
       if (evt.target.classList.contains('popup_opened')) {
-        closePopup(overlay);
+        closePopup(popup);
+      }
+      if (evt.target.classList.contains('popup__close-button')) {
+        closePopup(popup)
       }
     });
   });
