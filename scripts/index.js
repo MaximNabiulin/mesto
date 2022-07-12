@@ -59,12 +59,6 @@ const createCard = (item) => {
   return cardElement;
 }
 
-// прошу прощения что недостаочно хорошо отработал это замечание
-// уже не успевал вечером доделать, а хотелось сэкономить день
-// и отправить еще на одну итерацию, и понять сделал ли я правильно остальное
-// не успел разобраться как засунуть массив карточек без append,
-// чтобы они вставились не задом-на-перед
-
 const addCards = (data, direction = true) => {
   const fragment = document.createDocumentFragment();
   data.forEach ((item) => {
@@ -80,12 +74,6 @@ const addCards = (data, direction = true) => {
     placesContainer.prepend(fragment)
   }
 };
-
-// const addCardsSimple = (data) => {
-//   data.forEach((item) => {
-//     placesContainer.prepend(createCard(item));
-//   })
-// }
 
 function handleProfileFormSubmit (evt) {
   evt.preventDefault();
