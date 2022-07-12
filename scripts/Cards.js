@@ -33,11 +33,11 @@ class Card {
     });
 
     this._likeButton.addEventListener ('click', () => {
-      this._handleLikeButton()
+      this._handleLikeButton();
     });
 
     this._deleteButton.addEventListener ('click', () => {
-      this._handleDeleteButton()
+      this._handleDeleteButton();
     });
   }
 
