@@ -96,8 +96,7 @@ enableValidation(validationSettings);
 // ОТКРЫТИЕ ФОРМЫ ПРОФИЛЯ
 editButton.addEventListener('click', function() {
   const initialInfo = profileInfo.getUserInfo();
-  nameInput.value = initialInfo.profileName;
-  jobInput.value = initialInfo.profileJob;
+  editProfilePopup.setInputValues(initialInfo);
   formValidators['profile-edit-form'].resetValidation();
   editProfilePopup.open();
 });
