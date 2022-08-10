@@ -9,6 +9,8 @@
 @import url(../../blocks/content/content.css);
 
 @import url(../../blocks/profile/profile.css);
+@import url(../../blocks/profile/__avatar-container/profile__avatar-container.css);
+@import url(../../blocks/profile/__avatar-edit-button/profile__avatar-edit-button.css);
 @import url(../../blocks/profile/__avatar/profile__avatar.css);
 @import url(../../blocks/profile/__info/profile__info.css);
 @import url(../../blocks/profile/__name-row/profile__name-row.css);
@@ -24,6 +26,8 @@
 @import url(../../blocks/place/__image/place__image.css);
 @import url(../../blocks/place/__caption/place__caption.css);
 @import url(../../blocks/place/__title/place__title.css);
+@import url(../../blocks/place/__likes/place__likes.css);
+@import url(../../blocks/place/__like-counter/place__like-counter.css);
 @import url(../../blocks/place/__like-button/place__like-button.css);
 @import url(../../blocks/place/__like-button/_active/place__like-button_active.css);
 
@@ -33,12 +37,16 @@
 @import url(../../blocks/popup/popup.css);
 @import url(../../blocks/popup/_opened/popup_opened.css);
 @import url(../../blocks/popup/_type/popup_type_profile-editor.css);
+@import url(../../blocks/popup/_type/popup_type_avatar-editor.css);
 @import url(../../blocks/popup/_type/popup_type_new-place.css);
 @import url(../../blocks/popup/_type/popup_type_image-view.css);
 
 @import url(../../blocks/popup/__content/popup__content.css);
+@import url(../../blocks/popup/__content/_delete/popup__content_delete.css);
+@import url(../../blocks/popup/__content/_avatar/popup__content_avatar.css);
 @import url(../../blocks/popup/__close-button/popup__close-button.css);
 @import url(../../blocks/popup/__title/popup__title.css);
+@import url(../../blocks/popup/__title/_delete/popup__title_delete.css);
 
 @import url(../../blocks/popup/__form/popup__form.css);
 @import url(../../blocks/popup/__input/popup__input.css);
@@ -49,6 +57,7 @@
 
 @import url(../../blocks/popup/__submit-button/popup__submit-button.css);
 @import url(../../blocks/popup/__submit-button/_disabled/popup__submit-button_disabled.css);
+
 
 @import url(../../blocks/popup/__image-container/popup__image-container.css);
 @import url(../../blocks/popup/__image/popup__image.css);

@@ -1,19 +1,27 @@
 export default class UserInfo {
-  constructor({nameSelector, jobSelector}) {
+  constructor({nameSelector, jobSelector, avatarSelector}) {
     this._nameSelector = nameSelector;
     this._jobSelector = jobSelector;
+    this._avatarSelector = avatarSelector;
   }
 
+  // возвратить объект с данными пользователя
   getUserInfo() {
     const userInfo = {
       name: this._nameSelector.textContent,
-      job: this._jobSelector.textContent
+      about: this._jobSelector.textContent,
+      avatar: this._avatarSelector.src,
     };
     return userInfo;
   }
 
+  // принимает новые данные пользователя и добавляет их на страницу
   setUserInfo(data) {
     this._nameSelector.textContent = data.name;
-    this._jobSelector.textContent = data.job;
+    this._jobSelector.textContent = data.about;
+  }
+
+  setUserAvatar(data) {
+    this._avatarSelector.src = data.avatar;
   }
 }
