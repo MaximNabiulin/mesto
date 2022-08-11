@@ -8,7 +8,6 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithDeleteConfirmation from '../components/PopupWithDeleteConfirmation';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api';
-import User from '../components/User';
 
 import {
   validationSettings,
@@ -16,6 +15,12 @@ import {
   profileJob,
   profileAvatar,
   placesContainer,
+  templatePlaceSelector,
+  popupEditProfileSelector,
+  popupEditAvatarSelector,
+  popupAddCardSelector,
+  popupViewImageSelector,
+  popupDeleteCardSelector,
   editButton,
   avatarEditButton,
   addButton
@@ -31,21 +36,14 @@ const api = new Api({
 
 let currentUser;
 
-// ЗАГРУЗКА ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ
-api.getUserInfoFromApi()
-  .then((userInfo) => {
-    currentUser = new User(userInfo);
+// ЗАГРУЗКА ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ НАЧАЛЬНЫХ КАРТОЧЕК
+
+Promise.all([api.getUserInfoFromApi(), api.getInitialCards()])
+  .then(([userInfo, initialCards]) => {
+    currentUser = userInfo;
     profileInfo.setUserInfo(userInfo);
     profileInfo.setUserAvatar(userInfo);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-// ЗАГРУЗКА НАЧАЛЬНЫХ КАРТОЧЕК
-api.getInitialCards()
-  .then((initialCards) => {
-    cardsList.renderItems(initialCards)
+    cardsList.renderItems(initialCards);
   })
   .catch((err) => {
     console.log(err);
@@ -60,13 +58,13 @@ const profileInfo = new UserInfo({
 
 // ПОПАП РЕДАКТИРОВАНИЯ ДАННЫХ ПРОФИЛЯ
 const editProfilePopup = new PopupWithForm({
-    popupSelector: '.popup_type_profile-editor',
+    popupSelector: popupEditProfileSelector,
     handleFormSubmit: (data) => {
       editProfilePopup.renderLoading(true);
       api.editUserInfo(data)
         .then((userData) => {
           profileInfo.setUserInfo(userData);
-          // editProfilePopup.close();
+          editProfilePopup.close();
         })
         .catch((err) => {
           console.log(err);
@@ -82,13 +80,13 @@ editProfilePopup.setEventListeners();
 
 // ПОПАП РЕДАКТИРОВАНИЯ АВАТАРА ПРОФИЛЯ
 const editAvatarPopup = new PopupWithForm({
-  popupSelector: '.popup_type_avatar-editor',
+  popupSelector: popupEditAvatarSelector,
   handleFormSubmit: (data) => {
     editAvatarPopup.renderLoading(true);
     api.editUserAvatar(data)
       .then((userData) => {
         profileInfo.setUserAvatar(userData);
-        // editProfilePopup.close();
+        editAvatarPopup.close();
       })
       .catch((err) => {
         console.log(err);
@@ -103,13 +101,13 @@ const editAvatarPopup = new PopupWithForm({
 editAvatarPopup.setEventListeners();
 
 // ПОПАП ПРОСМОТРА ИЗОБРАЖЕНИЯ
-const viewImagePopup = new PopupWithImage('.popup_type_image-view');
+const viewImagePopup = new PopupWithImage(popupViewImageSelector);
 
 viewImagePopup.setEventListeners();
 
 // ПОПАП УДАЛЕНИЯ КАРТОЧКИ
 const deleteCardPopup = new PopupWithDeleteConfirmation({
-  popupSelector: '.popup_type_delete-card',
+  popupSelector: popupDeleteCardSelector,
   handleFormSubmit: (card) => {
     api.deleteCard(card.cardId)
       .then(() => {
@@ -128,12 +126,11 @@ deleteCardPopup.setEventListeners();
 const createCard = (item) => {
   const card = new Card ({
     data: item,
-    templateSelector: '#place-template',
+    templateSelector: templatePlaceSelector,
     handleCardClick: (image, title) => {
       viewImagePopup.open(image, title);
     },
     handleSetLike: (card) => {
-      console.log('Like');
       api.setlike(card.cardId)
         .then((data) => {
           card.update(data);
@@ -143,7 +140,6 @@ const createCard = (item) => {
         });
     },
     handleRemoveLike: (card) => {
-      console.log('removeLike');
       api.removeLike(card.cardId)
         .then((data) => {
           card.update(data);
@@ -155,7 +151,7 @@ const createCard = (item) => {
     handleDeleteBtnClick: (card) => {
       deleteCardPopup.open(card);
     },
-  }, currentUser.id);
+  }, currentUser._id);
   const cardElement = card.getElement();
   return cardElement;
 };
@@ -171,7 +167,7 @@ const cardsList = new Section({
 
 // ПОПАП ДОБАВЛЕНИЯ КАРТОЧКИ
 const newPlaceCardPopup = new PopupWithForm({
-    popupSelector: '.popup_type_new-place',
+    popupSelector: popupAddCardSelector,
     handleFormSubmit: (item) => {
       newPlaceCardPopup.renderLoading(true);
       api.addCard(item)

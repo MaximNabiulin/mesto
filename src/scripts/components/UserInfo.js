@@ -7,12 +7,11 @@ export default class UserInfo {
 
   // возвратить объект с данными пользователя
   getUserInfo() {
-    const userInfo = {
+    return {
       name: this._nameSelector.textContent,
       about: this._jobSelector.textContent,
       avatar: this._avatarSelector.src,
     };
-    return userInfo;
   }
 
   // принимает новые данные пользователя и добавляет их на страницу
@@ -23,5 +22,6 @@ export default class UserInfo {
 
   setUserAvatar(data) {
     this._avatarSelector.src = data.avatar;
+    this._avatarSelector.alt = data.name;
   }
 }

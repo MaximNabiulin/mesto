@@ -13,6 +13,14 @@ const profileAvatar = document.querySelector('.profile__avatar');
 
 const placesContainer = document.querySelector ('.places');
 
+const templatePlaceSelector ='#place-template'
+
+const popupEditProfileSelector = '.popup_type_profile-editor';
+const popupEditAvatarSelector = '.popup_type_avatar-editor';
+const popupAddCardSelector = '.popup_type_new-place';
+const popupViewImageSelector = '.popup_type_image-view';
+const popupDeleteCardSelector = '.popup_type_delete-card';
+
 const editButton = document.querySelector('#edit-button');
 const avatarEditButton = document.querySelector('#avatar-button');
 const addButton = document.querySelector('#add-button');
@@ -23,6 +31,12 @@ export {
   profileJob,
   profileAvatar,
   placesContainer,
+  templatePlaceSelector,
+  popupEditProfileSelector,
+  popupEditAvatarSelector,
+  popupAddCardSelector,
+  popupViewImageSelector,
+  popupDeleteCardSelector,
   editButton,
   avatarEditButton,
   addButton

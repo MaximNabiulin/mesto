@@ -4,6 +4,14 @@ export default class Api {
     this._headers = options.headers;
   }
 
+  _getResponseData(res) {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
   // ---- ПОЛЬЗОВАТЕЛЬ -----------------------------
   // 1. Загрузка информации о пользователе с сервера
 
@@ -11,13 +19,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   // 3. Редактирование профиля
@@ -31,13 +33,7 @@ export default class Api {
         about: data.about
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   // 9. Обновление аватара пользователя
@@ -50,13 +46,7 @@ export default class Api {
         avatar: data.avatar,
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
 // ---- КАРТОЧКИ -----------------
@@ -66,13 +56,7 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   // 4. Добавление новой карточки
@@ -86,13 +70,7 @@ export default class Api {
         link: data.link
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   // 7. Удаление карточки
@@ -102,13 +80,7 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   // 8. Постановка и снятие лайка
@@ -118,13 +90,7 @@ export default class Api {
       method: 'PUT',
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
   removeLike(cardId) {
@@ -132,13 +98,7 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(res => this._getResponseData(res));
   }
 
 }
